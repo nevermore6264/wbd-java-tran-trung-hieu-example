@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit employee</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div class="main-header">
+        <h2 class="title">Edit employee</h2>
+    </div>
+
+    <th:block th:if="${message}">
+        <div th:text="${message}" class="alert alert-success" role="alert">
+        </div>
+    </th:block>
+
+    <form th:object="${employee}" method="post" onsubmit="return check()">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="form-group">
+            <label>Employee ID: </label>
+            <input th:field="*{idCard}" type="text" class="form-control"/>
+            <p id="idCard_error"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Employee Name</label>
+            <input type="text" class="form-control" name="name" th:field="*{name}">
+            <p id="name_error"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Group :</label>
+            <select class="form-control" name="name" th:field="*{group}">
+                <option th:each="group:${groups}"
+                        th:value="${group.id}"
+                        th:text="${group.name}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Birthday: </label>
+              <input th:field="*{birthday}" type="text" class="form-control" required/>
+            <p id="birthday_error"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Gender </label><br>
+            <label><input type="radio" th:field="*{gender}" value="1">Male</label>
+            <label><input type="radio" th:field="*{gender}" value="0"> Female</label>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number: </label>
+            <input th:field="*{phoneNumber}" type="text" class="form-control"/>
+            <p id="phoneNumber_error"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Email: </label>
+            <input th:field="*{email}" type="text" class="form-control"/>
+            <p id="email_error"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Address: </label>
+            <textarea th:field="*{address}" type="text" class="form-control"></textarea>
+            <p id="address_error"></p>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+</section>
+<script src="/assets/js/validate.js" type="text/javascript" language="JavaScript"></script>
+</body>
+</html>
