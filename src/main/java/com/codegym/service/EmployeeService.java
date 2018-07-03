@@ -14,4 +14,7 @@ public interface EmployeeService {
     boolean existName(String name);
 
     void delete(Long id);
+
+    Page<Employee> findAllByNameContains(String name, Pageable pageable);
+
 }

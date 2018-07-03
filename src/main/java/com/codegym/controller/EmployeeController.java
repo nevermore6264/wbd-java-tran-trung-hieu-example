@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/employees")
@@ -25,12 +26,25 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("")
-    public ModelAndView getAllEmployees(Pageable pageable) {
+//    @GetMapping("")
+//    public ModelAndView getAllEmployees(Pageable pageable) {
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        Page<Employee> employees = employeeService.findAll(pageable);
+//        modelAndView.setViewName("/employee/list");
+//        modelAndView.addObject("employees", employees);
+//        return modelAndView;
+//    }
 
-        ModelAndView modelAndView = new ModelAndView();
-        Page<Employee> employees = employeeService.findAll(pageable);
-        modelAndView.setViewName("/employee/list");
+    @GetMapping("")
+    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable){
+        Page<Employee> employees;
+        if(s.isPresent()){
+            employees = employeeService.findAllByNameContains(s.get(), pageable);
+        } else {
+            employees = employeeService.findAll(pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("/employee/list");
         modelAndView.addObject("employees", employees);
         return modelAndView;
     }
